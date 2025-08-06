@@ -92,7 +92,7 @@ function App() {
       </div>
     </div>
   );
-}
+
 
 if (token && user) {
   return (
@@ -115,6 +115,6 @@ if (token && user) {
   );
 }
 
-
+}
 
 export default App;
