@@ -131,73 +131,113 @@ const AdminDashboard = ({ token }) => {
 
     // --- Render ---
     return (
-        <div style={{ display: 'flex', gap: '20px' }}>
-            {/* Left Column: Workflows List */}
-            <div style={{ flex: 1 }}>
-                <h2>Workflows</h2>
-                {message && <p><em>{message}</em></p>}
-                <form onSubmit={handleCreateWorkflow}>
-                    <input
-                        type="text"
-                        value={newWorkflowName}
-                        onChange={(e) => setNewWorkflowName(e.target.value)}
-                        placeholder="New workflow name"
-                        required
-                    />
-                    <button type="submit">Create Workflow</button>
-                </form>
-                <hr />
-                {workflows.map(w => (
-                    <div key={w.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px' }}>
-                        <span>{w.name}</span>
-                        <div>
-                            <button onClick={() => handleSelectWorkflow(w)}>Select</button>
-                            <button onClick={() => handleDeleteWorkflow(w.id)} style={{ marginLeft: '5px' }}>Delete</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Right Column: Tasks for Selected Workflow */}
-            <div style={{ flex: 2, borderLeft: '1px solid #ccc', paddingLeft: '20px' }}>
-                {selectedWorkflow ? (
-                    <>
-                        <h2>Tasks for: {selectedWorkflow.name}</h2>
-                        {workflowTasks.length > 0 ? (
-                             <ul>{workflowTasks.map(task => <li key={task.id}>{task.title} (Assigned to: {task.assignee || 'N/A'}) - Status: {task.status}</li>)}</ul>
-                        ) : <p>No tasks yet.</p>}
-                       
-                        <hr />
-                        <h3>Add New Task</h3>
-                        <form onSubmit={handleAddTask}>
-                            <div>
-                                <label>Title: </label>
-                                <input type="text" value={newNodeTitle} onChange={(e) => setNewNodeTitle(e.target.value)} required />
-                            </div>
-                            <div>
-                                <label>Assign To: </label>
-                                <select value={newNodeAssignee} onChange={(e) => setNewNodeAssignee(e.target.value)}>
-                                    {users.map(u => <option key={u.id} value={u.id}>{u.username}</option>)}
-                                </select>
-                            </div>
-                            <div>
-                                <label>Due Date (e.g., Aug 7 2025): </label>
-                                <input type="datetime-local" value={dueDate} onChange={(e) => { setDueDate(e.target.value); setDueTimeInHours(''); }} />
-                            </div>
-                            <p>OR</p>
-                             <div>
-                                <label>Time Limit (in hours from now): </label>
-                                <input type="number" value={dueTimeInHours} onChange={(e) => { setDueTimeInHours(e.target.value); setDueDate(''); }} />
-                            </div>
-                            <button type="submit" style={{marginTop: '10px'}}>Add Task</button>
-                        </form>
-                    </>
+        <div className="admin-grid">
+          <div className="workflows-panel">
+            <h2 className="panel-title">Workflows</h2>
+            {message && <p className={`message ${message.includes('created') || message.includes('deleted') ? 'success' : 'error'}`}>{message}</p>}
+            
+            <form className="create-form" onSubmit={handleCreateWorkflow}>
+              <input
+                className="form-input"
+                type="text"
+                value={newWorkflowName}
+                onChange={(e) => setNewWorkflowName(e.target.value)}
+                placeholder="New workflow name"
+                required
+              />
+              <button className="btn-primary" type="submit">Create Workflow</button>
+            </form>
+            
+            {workflows.map(w => (
+              <div key={w.id} className="workflow-item">
+                <span className="workflow-name">{w.name}</span>
+                <div className="workflow-actions">
+                  <button className="btn-select" onClick={() => handleSelectWorkflow(w)}>Select</button>
+                  <button className="btn-delete" onClick={() => handleDeleteWorkflow(w.id)}>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+      
+          <div className="tasks-panel">
+            {selectedWorkflow ? (
+              <>
+                <h2 className="panel-title">Tasks for: {selectedWorkflow.name}</h2>
+                {workflowTasks.length === 0 ? (
+                  <div className="empty-state">
+                    <h3>No tasks yet</h3>
+                    <p>Add your first task below</p>
+                  </div>
                 ) : (
-                    <h2>Select a workflow to see its tasks</h2>
+                  <div className="task-grid">
+                    {workflowTasks.map(task => (
+                      <div key={task.id} className="task-card">
+                        <h3 className="task-title">{task.title}</h3>
+                        <span className={`task-status ${task.status}`}>{task.status}</span>
+                        <p className="task-due">Assigned to: {task.assignee || 'Unassigned'}</p>
+                      </div>
+                    ))}
+                  </div>
                 )}
-            </div>
+                
+                <div className="create-form">
+                  <h3 className="panel-title">Add New Task</h3>
+                  <form onSubmit={handleAddTask}>
+                    <div className="form-group">
+                      <label className="form-label">Title</label>
+                      <input 
+                        className="form-input"
+                        type="text" 
+                        value={newNodeTitle} 
+                        onChange={(e) => setNewNodeTitle(e.target.value)}
+                        required 
+                      />
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label className="form-label">Assign To</label>
+                        <select 
+                          className="select-input"
+                          value={newNodeAssignee} 
+                          onChange={(e) => setNewNodeAssignee(e.target.value)}
+                        >
+                          {users.map(u => <option key={u.id} value={u.id}>{u.username}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label className="form-label">Due Date</label>
+                        <input 
+                          className="form-input"
+                          type="datetime-local" 
+                          value={dueDate} 
+                          onChange={(e) => { setDueDate(e.target.value); setDueTimeInHours(''); }} 
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">OR Hours from now</label>
+                        <input 
+                          className="form-input"
+                          type="number" 
+                          value={dueTimeInHours} 
+                          onChange={(e) => { setDueTimeInHours(e.target.value); setDueDate(''); }} 
+                        />
+                      </div>
+                    </div>
+                    <button className="btn-primary" type="submit">Add Task</button>
+                  </form>
+                </div>
+              </>
+            ) : (
+              <div className="empty-state">
+                <h3>Select a workflow</h3>
+                <p>Choose a workflow from the left to view and manage its tasks</p>
+              </div>
+            )}
+          </div>
         </div>
-    );
+      );
 };
 
 export default AdminDashboard;

@@ -53,30 +53,41 @@ const UserDashboard = ({ token }) => {
 
     return (
         <div>
-            <h2>My Tasks</h2>
-            {message && <p><strong>{message}</strong></p>}
-            {tasks.length === 0 && <p>You have no pending tasks. Great job! 👏</p>}
-            <div>
-                {tasks.map(task => (
-                    <div key={task.id} style={{ ...getTaskStyle(task.status), margin: '10px', padding: '10px' }}>
-                        <h3>{task.title}</h3>
-                        <p><strong>Status:</strong> <span style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{task.status}</span></p>
-                        <p><strong>Due:</strong> {new Date(task.due_date).toLocaleString('en-AU')}</p>
-                        
-                        {task.blocked_by_count > 0 ? (
-                            <p style={{ color: 'orange' }}>
-                                <strong>Blocked:</strong> Waiting for prerequisite task(s).
-                            </p>
-                        ) : (
-                            <button onClick={() => handleCompleteTask(task.id)} disabled={task.status === 'completed'}>
-                                Mark as Complete
-                            </button>
-                        )}
-                    </div>
-                ))}
+          <h2 className="panel-title">My Tasks</h2>
+          {message && <p className={`message ${message.includes('completed') ? 'success' : 'error'}`}>{message}</p>}
+          
+          {tasks.length === 0 ? (
+            <div className="empty-state">
+              <h3>No tasks assigned</h3>
+              <p>You're all caught up! 🎉</p>
             </div>
+          ) : (
+            <div className="task-grid">
+              {tasks.map(task => (
+                <div key={task.id} className={`task-card ${task.status}`}>
+                  <h3 className="task-title">{task.title}</h3>
+                  <span className={`task-status ${task.status}`}>{task.status}</span>
+                  <p className="task-due">Due: {new Date(task.due_date).toLocaleString('en-AU')}</p>
+                  
+                  {task.blocked_by_count > 0 ? (
+                    <div className="task-blocked">
+                      Blocked: Waiting for prerequisite tasks
+                    </div>
+                  ) : (
+                    <button 
+                      className="btn-complete" 
+                      onClick={() => handleCompleteTask(task.id)}
+                      disabled={task.status === 'completed'}
+                    >
+                      Mark as Complete
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-    );
+      );
 };
 
 export default UserDashboard;
