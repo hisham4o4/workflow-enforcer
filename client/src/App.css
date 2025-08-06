@@ -1,5 +1,3 @@
-/* Modern Workflow Enforcer Styles */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
@@ -16,6 +14,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
 }
 
 .app-container {
@@ -73,10 +73,13 @@ body {
   padding: 0.75rem 1rem;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: 16px; /* Prevents iOS zoom */
   transition: all 0.3s ease;
   background: white;
   font-family: inherit;
+  width: 100%;
+  /* Touch-friendly minimum height */
+  min-height: 44px;
 }
 
 .form-input:focus {
@@ -92,13 +95,16 @@ body {
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 12px;
-  font-size: 1rem;
+  font-size: 16px; /* Prevents iOS zoom */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-family: inherit;
+  /* Touch-friendly minimum height */
+  min-height: 44px;
+  touch-action: manipulation; /* Prevents double-tap zoom */
 }
 
 .btn-primary:hover {
@@ -112,11 +118,13 @@ body {
   border: 2px solid #667eea;
   padding: 0.5rem 1rem;
   border-radius: 12px;
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: inherit;
+  min-height: 44px;
+  touch-action: manipulation;
 }
 
 .btn-secondary:hover {
@@ -151,23 +159,27 @@ body {
   backdrop-filter: blur(20px);
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  margin: 2rem;
-  padding: 2rem;
-  min-height: 80vh;
+  margin: 1rem;
+  padding: 1.5rem;
+  min-height: calc(100vh - 2rem);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  width: calc(100% - 2rem);
+  max-width: none;
 }
 
 .dashboard-header {
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid #f7fafc;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .welcome-title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   background: linear-gradient(135deg, #667eea, #764ba2);
   -webkit-background-clip: text;
@@ -191,6 +203,8 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: inherit;
+  min-height: 44px;
+  touch-action: manipulation;
 }
 
 .btn-logout:hover {
@@ -198,7 +212,7 @@ body {
   transform: translateY(-1px);
 }
 
-/* Admin Dashboard Grid */
+/* Admin Dashboard Grid - Mobile Adaptive */
 .admin-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -211,6 +225,8 @@ body {
   border-radius: 16px;
   padding: 1.5rem;
   border: 1px solid #e2e8f0;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
 }
 
 .tasks-panel {
@@ -219,6 +235,8 @@ body {
   padding: 1.5rem;
   border: 1px solid #e2e8f0;
   border-left: 3px solid #667eea;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
 }
 
 .panel-title {
@@ -248,24 +266,30 @@ body {
 .workflow-name {
   font-weight: 500;
   color: #2d3748;
+  word-break: break-word;
+  margin-right: 1rem;
+  flex: 1;
 }
 
 .workflow-actions {
   display: flex;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .btn-select {
   background: #667eea;
   color: white;
   border: none;
-  padding: 0.375rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: inherit;
+  min-height: 36px;
+  touch-action: manipulation;
 }
 
 .btn-select:hover {
@@ -276,13 +300,15 @@ body {
   background: #f56565;
   color: white;
   border: none;
-  padding: 0.375rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: inherit;
+  min-height: 36px;
+  touch-action: manipulation;
 }
 
 .btn-delete:hover {
@@ -327,6 +353,7 @@ body {
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: #2d3748;
+  word-break: break-word;
 }
 
 .task-status {
@@ -360,6 +387,7 @@ body {
   font-size: 0.875rem;
   font-weight: 500;
   margin: 0.5rem 0;
+  word-break: break-word;
 }
 
 .task-blocked {
@@ -377,13 +405,17 @@ body {
   background: linear-gradient(135deg, #48bb78, #38a169);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 1rem;
   font-family: inherit;
+  width: 100%;
+  min-height: 44px;
+  font-size: 16px;
+  touch-action: manipulation;
 }
 
 .btn-complete:hover {
@@ -418,13 +450,15 @@ body {
 }
 
 .select-input {
-  padding: 0.5rem;
+  padding: 0.75rem;
   border: 2px solid #e2e8f0;
   border-radius: 8px;
-  font-size: 0.875rem;
+  font-size: 16px; /* Prevents iOS zoom */
   background: white;
   font-family: inherit;
   transition: all 0.3s ease;
+  width: 100%;
+  min-height: 44px;
 }
 
 .select-input:focus {
@@ -450,30 +484,190 @@ body {
   font-size: 0.875rem;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* MOBILE-FIRST RESPONSIVE DESIGN */
+
+/* Mobile phones (320px - 767px) */
+@media (max-width: 767px) {
+  body {
+    font-size: 14px;
+  }
+
+  .app-container {
+    padding: 0.5rem;
+  }
+
+  .auth-container {
+    padding: 2rem 1.5rem;
+    border-radius: 16px;
+    margin: 0.5rem;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-container {
+    margin: 0.5rem;
+    padding: 1rem;
+    border-radius: 16px;
+    min-height: calc(100vh - 1rem);
+    width: calc(100% - 1rem);
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .welcome-title {
+    font-size: 1.25rem;
+  }
+
+  /* Stack admin panels vertically on mobile */
   .admin-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
-  .dashboard-container {
-    margin: 1rem;
+
+  .workflows-panel,
+  .tasks-panel {
+    padding: 1rem;
+    max-height: none;
+    border-left: none;
+  }
+
+  .tasks-panel {
+    border-top: 3px solid #667eea;
+    border-left: 1px solid #e2e8f0;
+  }
+
+  .panel-title {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Mobile workflow items */
+  .workflow-item {
+    flex-direction: column;
+    align-items: flex-start;
     padding: 1rem;
   }
-  
-  .auth-container {
-    padding: 2rem;
+
+  .workflow-name {
+    margin-right: 0;
+    margin-bottom: 1rem;
+    width: 100%;
   }
-  
+
+  .workflow-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .btn-select,
+  .btn-delete {
+    flex: 1;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+  }
+
+  /* Mobile task cards */
+  .task-card {
+    padding: 1rem;
+  }
+
+  .task-title {
+    font-size: 1rem;
+  }
+
+  .task-status {
+    font-size: 0.6875rem;
+  }
+
+  /* Mobile forms */
   .form-row {
     flex-direction: column;
+    gap: 0.5rem;
   }
-  
-  .dashboard-header {
-    flex-direction: column;
-    gap: 1rem;
+
+  .create-form {
+    padding: 1rem;
+  }
+
+  .form-input,
+  .select-input {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  /* Full-width buttons on mobile */
+  .btn-primary,
+  .btn-secondary,
+  .btn-logout {
+    width: 100%;
     text-align: center;
+  }
+
+  /* Larger touch targets for mobile */
+  .btn-select,
+  .btn-delete,
+  .btn-complete {
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Tablets (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dashboard-container {
+    margin: 1.5rem;
+    padding: 2rem;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr 1.5fr;
+    gap: 1.5rem;
+  }
+
+  .welcome-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  .dashboard-container {
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 1400px;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+  }
+
+  /* Hover effects only on desktop */
+  @media (hover: hover) {
+    .btn-primary:hover,
+    .btn-secondary:hover,
+    .btn-complete:hover,
+    .btn-select:hover,
+    .btn-delete:hover,
+    .btn-logout:hover {
+      transform: translateY(-1px);
+    }
+
+    .task-card:hover,
+    .workflow-item:hover {
+      transform: translateY(-2px);
+    }
   }
 }
 
@@ -528,4 +722,32 @@ body {
   100% {
     box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
   }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .form-input,
+  .select-input {
+    border-width: 2px;
+  }
+  
+  .btn-primary,
+  .btn-secondary,
+  .btn-complete {
+    border: 2px solid transparent;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  /* Add dark mode styles if needed */
 }
