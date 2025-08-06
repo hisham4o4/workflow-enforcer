@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = '/api';
 
 // Helper function to determine the style of a task based on its status
 const getTaskStyle = (status) => {

@@ -3,7 +3,7 @@ import axios from 'axios';
 import AdminDashboard from './AdminDashboard';
 import UserDashboard from './UserDashboard';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = '/api';
 
 function App() {
     const [isLogin, setIsLogin] = useState(true);
