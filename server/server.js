@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Initialize the database connection and tables
 // We only need to do this if our database.js exports an init function
-// db.initializeDb().catch(console.error);
+// db.initializeDb().catch(console.error);;
 
 // --- Auth Routes ---
 app.post('/api/register', async (req, res) => {
