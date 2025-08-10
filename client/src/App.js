@@ -47,10 +47,11 @@ function App() {
               <h1>Welcome, {user.username}!</h1>
               <button onClick={handleLogout}>Logout</button>
               <hr />
-              {user.role === 1 ? (
+              {user.role === 3 ? ( // Role 3 is Admin
                   <AdminDashboard token={token} />
               ) : (
-                <UserDashboard token={token} />  // Placeholder for UserDashboard or was
+                  // Pass the full user object to the dashboard
+                  <UserDashboard token={token} user={user} /> 
               )}
           </div>
       );
