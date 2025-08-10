@@ -174,13 +174,46 @@ app.post('/api/tasks/:id/complete', authMiddleware, async (req, res) => {
 
 // --- Workflow & Admin Hub Routes (Admin Only) ---
 // Admin creates a workflow
-app.post('/api/workflows', [authMiddleware, adminOnly], async (req, res) => { /* ... existing code ... */ });
+app.post('/api/workflows', [authMiddleware, adminOnly], async (req, res) => {
+    const { name, description } = req.body;
+    const sql = `INSERT INTO workflows (name, description) VALUES ($1, $2) RETURNING *`;
+    try {
+        const result = await db.query(sql, [name, description]);
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ "error": "Could not create workflow." });
+    }
+});
 // Admin gets all workflows
-app.get('/api/workflows', [authMiddleware, adminOnly], async (req, res) => { /* ... existing code ... */ });
+app.get('/api/workflows', [authMiddleware, adminOnly], async (req, res) => {
+    const sql = "SELECT * FROM workflows";
+    try {
+        const result = await db.query(sql);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ "error": "Could not fetch workflows." });
+    }
+});
 // Admin deletes a workflow
-app.delete('/api/workflows/:id', [authMiddleware, adminOnly], async (req, res) => { /* ... existing code ... */ });
+app.delete('/api/workflows/:id', [authMiddleware, adminOnly], async (req, res) => {
+    const workflowId = req.params.id;
+    const nodesSql = `
+        SELECT n.id, n.title, n.status, n.due_date, u.username as assignee
+        FROM nodes n
+        LEFT JOIN users u ON n.assignee_id = u.id
+        WHERE n.workflow_id = $1`;
+    try {
+        const nodesResult = await db.query(nodesSql, [workflowId]);
+        res.json({ nodes: nodesResult.rows, edges: [] }); // Edges can be added later if needed
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ "error": "Could not fetch workflow details." });
+    }
+});
 
-// Admin adds a node to a predefined workflow
+// Admin adds a node to a predefined workflow   
 app.post('/api/workflows/:workflowId/nodes', [authMiddleware, adminOnly], async (req, res) => {
     // This is now for admins building chains, not for universal assignment
     const { title, description, assignee_id, due_date } = req.body;
