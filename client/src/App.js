@@ -47,11 +47,10 @@ function App() {
               <h1>Welcome, {user.username}!</h1>
               <button onClick={handleLogout}>Logout</button>
               <hr />
-              {user.role === 3 ? ( // Role 3 is Admin
+              {user.role == 3 ? ( // Role 3 is Admin -- CHANGED THIS LINE
                   <AdminDashboard token={token} />
               ) : (
-                  // Pass the full user object to the dashboard
-                  <UserDashboard token={token} user={user} /> 
+                  <UserDashboard token={token} user={user} />
               )}
           </div>
       );
@@ -95,26 +94,7 @@ function App() {
   );
 
 
-if (token && user) {
-  return (
-    <div className="app-container">
-      <div className="dashboard-container">
-        <div className="dashboard-header">
-          <div>
-            <h1 className="welcome-title">Welcome, {user.username}!</h1>
-            <p className="user-info">Role: {user.role === 1 ? 'Admin' : 'User'}</p>
-          </div>
-          <button className="btn-logout" onClick={handleLogout}>Logout</button>
-        </div>
-        {user.role === 1 ? (
-          <AdminDashboard token={token} />
-        ) : (
-          <UserDashboard token={token} />
-        )}
-      </div>
-    </div>
-  );
-}
+
 
 }
 
