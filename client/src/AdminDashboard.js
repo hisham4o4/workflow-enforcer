@@ -25,7 +25,7 @@ const AdminDashboard = ({ token }) => {
   // Data Fetching Hooks
   const fetchWorkflows = async () => {
     try {
-      const response = await axios.get(`${API_URL}/workflows`, {
+      const response = await axios.get(`${API_URL}/api/workflows`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setWorkflows(response.data);
@@ -57,7 +57,7 @@ const AdminDashboard = ({ token }) => {
   const handleSelectWorkflow = async (workflow) => {
     setSelectedWorkflow(workflow);
     try {
-      const response = await axios.get(`${API_URL}/admin/workflow-stats/${workflow.id}`, {
+      const response = await axios.get(`${API_URL}/api/admin/workflow-stats/${workflow.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setWorkflowTasks(response.data.nodes);
@@ -70,7 +70,7 @@ const AdminDashboard = ({ token }) => {
   const handleCreateWorkflow = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_URL}/workflows`, { name: newWorkflowName }, {
+      const response = await axios.post(`${API_URL}/api/workflows`, { name: newWorkflowName }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setWorkflows([...workflows, response.data]);
@@ -85,7 +85,7 @@ const AdminDashboard = ({ token }) => {
     if (!window.confirm("Are you sure you want to delete this workflow and all its tasks?")) return;
     
     try {
-      await axios.delete(`${API_URL}/workflows/${workflowId}`, {
+      await axios.delete(`${API_URL}/api/workflows/${workflowId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setWorkflows(workflows.filter(w => w.id !== workflowId));

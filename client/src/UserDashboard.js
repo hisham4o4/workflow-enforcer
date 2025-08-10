@@ -68,8 +68,7 @@ const UserDashboard = ({ token, user }) => {
       <h2>My Dashboard</h2>
       {message && <div className="message error"><strong>{message}</strong></div>}
       
-      {/* Universal Task Creation Form (for roles that can assign) */}
-      {user.role > 0 && <CreateTaskForm token={token} onTaskCreated={fetchTasks} />}
+
       
       <h3>My Tasks & Supervised Tasks</h3>
       
@@ -122,7 +121,12 @@ const UserDashboard = ({ token, user }) => {
           ))}
         </div>
       )}
+
+      {/* Universal Task Creation Form (for roles that can assign) */}
+      {user.role >= 0 && <CreateTaskForm token={token} onTaskCreated={fetchTasks} />}
+
     </div>
+
   );
 };
 

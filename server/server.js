@@ -252,5 +252,5 @@ app.get('/api/admin/workflow-stats/:id', [authMiddleware, adminOnly], async (req
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-    // enforcementEngine.startEngine(); // You can re-enable this when ready
+    enforcementEngine.startEngine(); // You can re-enable this when ready
 });
