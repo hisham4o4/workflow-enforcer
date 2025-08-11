@@ -7,15 +7,13 @@ const AdminFlowChart = ({ workflow, token }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // FIX: Add this guard clause to prevent rendering if the workflow prop is missing.
   if (!workflow) {
-    return null; // Or return a loading message like <div>Loading...</div>
+    return null;
   }
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      // This is now safe because we've confirmed 'workflow' exists.
       const res = await axios.get(`${API_URL}/admin/workflow-stats/${workflow.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -28,7 +26,6 @@ const AdminFlowChart = ({ workflow, token }) => {
 
   return (
     <div className="flow-chart-hub">
-      {/* This is now safe to access */}
       <h3>Flow Chart Hub: {workflow.name}</h3>
       <button onClick={fetchData} disabled={loading}>
         {loading ? 'Loading...' : 'Load Visual Data'}
@@ -48,11 +45,11 @@ const AdminFlowChart = ({ workflow, token }) => {
           <ul className="data-list">
             {data.nodes.map(node => (
               <li key={node.id}>
-              <strong>{node.title}</strong>
-              {node.seen_at && <span className="badge-seen" style={{ marginLeft: '8px', fontSize: '0.7rem', padding: '2px 6px' }}>✔ Seen</span>}
-              <span style={{ marginLeft: '8px', color: '#888888' }}>(Status: {node.status}, Assignee: {node.assignee_name || 'N/A'})</span>
-            </li>
-
+                <strong>{node.title}</strong>
+                {/* --- This is the new line --- */}
+                {node.seen_at && <span className="badge-seen" style={{ marginLeft: '8px', fontSize: '0.7rem', padding: '2px 6px' }}>✔ Seen</span>}
+                <span style={{ marginLeft: '8px', color: '#888888' }}>(Status: {node.status}, Assignee: {node.assignee_name || 'N/A'})</span>
+              </li>
             ))}
           </ul>
           
