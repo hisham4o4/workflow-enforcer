@@ -7,10 +7,6 @@ const AdminFlowChart = ({ workflow, token }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  if (!workflow) {
-    return null;
-  }
-
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -44,12 +40,7 @@ const AdminFlowChart = ({ workflow, token }) => {
           <h4>Tasks (Nodes)</h4>
           <ul className="data-list">
             {data.nodes.map(node => (
-              <li key={node.id}>
-                <strong>{node.title}</strong>
-                {/* --- This is the new line --- */}
-                {node.seen_at && <span className="badge-seen" style={{ marginLeft: '8px', fontSize: '0.7rem', padding: '2px 6px' }}>✔ Seen</span>}
-                <span style={{ marginLeft: '8px', color: '#888888' }}>(Status: {node.status}, Assignee: {node.assignee_name || 'N/A'})</span>
-              </li>
+              <li key={node.id}><strong>{node.title}</strong> (Status: {node.status}, Assignee: {node.assignee_name || 'N/A'})</li>
             ))}
           </ul>
           
