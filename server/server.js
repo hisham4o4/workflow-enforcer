@@ -228,6 +228,7 @@ app.post('/api/workflows', [authMiddleware, adminOnly], async (req, res) => {
         console.error(err);
         res.status(500).json({ "error": "Could not create workflow." });
     }
+});
 // Admin gets all workflows
 app.get('/api/workflows', [authMiddleware, adminOnly], async (req, res) => {
     const sql = "SELECT * FROM workflows";
@@ -238,6 +239,7 @@ app.get('/api/workflows', [authMiddleware, adminOnly], async (req, res) => {
         console.error(err);
         res.status(500).json({ "error": "Could not fetch workflows." });
     }
+});
 
 // [FIXED] DELETE /api/workflows/:id
 app.delete('/api/workflows/:id', [authMiddleware, adminOnly], async (req, res) => {
@@ -289,6 +291,7 @@ app.get('/api/admin/master-flow', [authMiddleware, adminOnly], async (req, res) 
 });
 
 // Other admin routes (GET /workflows, POST /workflows/:id/nodes, etc.) remain as they were in your provided code.
+
 // GET /api/admin/workflow-stats/:id endpoint remains the same.
 app.get('/api/admin/workflow-stats/:id', [authMiddleware, adminOnly], async (req, res) => {
     const { id } = req.params;
