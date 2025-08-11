@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AdminFlowChart from './AdminFlowChart';
+import DashboardGreeting from './DashboardGreeting';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
