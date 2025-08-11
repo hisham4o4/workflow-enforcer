@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AdminFlowChart from './AdminFlowChart';
 import DashboardGreeting from './DashboardGreeting'; // Assuming this component exists
-
+import WorkflowTaskView from './WorkflowTaskView';
 const API_URL = process.env.REACT_APP_API_URL;
 
 const AdminDashboard = ({ token }) => {
