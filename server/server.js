@@ -216,6 +216,29 @@ app.get('/api/tasks/:id/logs', [authMiddleware, adminOnly], async (req, res) => 
 
 
 // --- Workflow & Admin Hub Routes ---
+
+// Admin creates a workflow
+app.post('/api/workflows', [authMiddleware, adminOnly], async (req, res) => {
+    const { name, description } = req.body;
+    const sql = `INSERT INTO workflows (name, description) VALUES ($1, $2) RETURNING *`;
+    try {
+        const result = await db.query(sql, [name, description]);
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ "error": "Could not create workflow." });
+    }
+// Admin gets all workflows
+app.get('/api/workflows', [authMiddleware, adminOnly], async (req, res) => {
+    const sql = "SELECT * FROM workflows";
+    try {
+        const result = await db.query(sql);
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ "error": "Could not fetch workflows." });
+    }
+
 // [FIXED] DELETE /api/workflows/:id
 app.delete('/api/workflows/:id', [authMiddleware, adminOnly], async (req, res) => {
     const { id } = req.params;
