@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import api, { authHeaders } from '../api';
+import api, { authHeaders } from './api';
 import CountdownTimer from './CountdownTimer';
 
 /**

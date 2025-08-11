@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api, { authHeaders } from '../api';
+import api, { authHeaders } from './api';
 import AdminFlowChart from './AdminFlowChart'; // keep existing chart
 import DashboardGreeting from './DashboardGreeting';
 import WorkflowTaskView from './WorkflowTaskView';
