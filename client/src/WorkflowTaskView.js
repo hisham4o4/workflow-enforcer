@@ -35,7 +35,7 @@ const WorkflowTaskView = ({ tasks, token, onDataChange }) => {
                                 <p>Status: {task.status}</p>
                             </div>
                         </div>
-                        {/* Feature 3: Render a connecting arrow if it's not the last task */}
+                        {/* Feature 3: Render a connecting arrow if it's not the last task. */}
                         {index < tasks.length - 1 && (
                             <div className="task-arrow">→</div>
                         )}
